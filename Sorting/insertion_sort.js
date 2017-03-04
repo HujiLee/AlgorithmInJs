@@ -5,29 +5,29 @@
 
 /**
  *
- * @param array {Array}
+ * @param raw_array {Array}
  * @returns sorted_array {Array}
  */
-var insertionSort = function (array) {
+var insertionSort = function (raw_array) {
     var resultArray = [];
-    if(array.length==0){
+    if(raw_array.length==0){
         return resultArray;
-    }else if(array.length==1){
-        resultArray.push(array[0]);
+    }else if(raw_array.length==1){
+        resultArray.push(raw_array[0]);
         return resultArray;
     }else{
-        resultArray.push(array[0]);
+        resultArray.push(raw_array[0]);
         resultArray.push(Infinity);
         resultArray.unshift(-Infinity);
         var i = 1,
             j,
             resLength;
-        while (i<array.length){
+        while (i<raw_array.length){
             j = 0;
             resLength = resultArray.length;
             for(j=0;i<=resLength-2;j++){
-                if(resultArray[j]<=array[i]&&array[i]<=resultArray[j+1]){
-                    resultArray.splice(j+1,0,array[i]);
+                if(resultArray[j]<=raw_array[i]&&raw_array[i]<=resultArray[j+1]){
+                    resultArray.splice(j+1,0,raw_array[i]);
                     break;//不能缺!!!否则就是死循环
                 }
             }
@@ -45,4 +45,7 @@ console.log(
 );
 console.log(
     insertionSort([1])
+);
+console.log(
+    insertionSort([])
 );
