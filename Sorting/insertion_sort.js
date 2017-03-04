@@ -3,7 +3,11 @@
  */
 
 
-
+/**
+ *
+ * @param array {Array}
+ * @returns sorted_array {Array}
+ */
 var insertionSort = function (array) {
     var resultArray = [];
     if(array.length==0){
@@ -38,4 +42,7 @@ var insertionSort = function (array) {
 };
 console.log(
     insertionSort([1,9,8,12,-5,-7,8,0,Infinity])//[ -7, -5, 0, 1, 8, 8, 9, 12, Infinity ]
+);
+console.log(
+    insertionSort([1])
 );
