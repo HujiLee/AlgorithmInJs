@@ -1,0 +1,51 @@
+/**
+ * Created by Administrator on 2017/3/11 0011.
+ */
+var TreeNode = (function () {
+    var Node = (function () {
+        function Node(data, left, right) {
+            if (data === void 0) { data = 0; }
+            if (left === void 0) { left = null; }
+            if (right === void 0) { right = null; }
+            this.data = data;
+            this.left = left;
+            this.right = right;
+        }
+        Node.prototype.inOrderPrint = function () {
+            if (this.left) {
+                this.left.inOrderPrint();
+            }
+            console.log(this.data);
+            if (this.right) {
+                this.right.inOrderPrint();
+            }
+        };
+        Node.prototype.insert = function (node) {
+            if (node.data > this.data) {
+                if (this.right) {
+                    this.right.insert(node);
+                }
+                else {
+                    this.right = node;
+                }
+            }
+            else if (node.data < this.data) {
+                if (this.left) {
+                    this.left.insert(node);
+                }
+                else {
+                    this.left = node;
+                }
+            }
+            return this;
+        };
+        return Node;
+    }());
+    return Node;
+})();
+var root = new TreeNode();
+root.insert(new TreeNode(2)).insert(new TreeNode(4)).insert(new TreeNode(-2));
+root.insert(new TreeNode(-0.5)).insert(new TreeNode(-9));
+root.inOrderPrint();
+"";
+//# sourceMappingURL=binarySearchTree.js.map
