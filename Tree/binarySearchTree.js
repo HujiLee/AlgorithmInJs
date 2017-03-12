@@ -1,17 +1,18 @@
 /**
  * Created by Administrator on 2017/3/11 0011.
  */
-var TreeNode = (function () {
-    var Node = (function () {
-        function Node(data, left, right) {
+var BiNode = (function () {
+    var _Node = (function () {
+        function _Node(data, left, right) {
             if (data === void 0) { data = 0; }
             if (left === void 0) { left = null; }
             if (right === void 0) { right = null; }
+            this.parent = null;
             this.data = data;
             this.left = left;
             this.right = right;
         }
-        Node.prototype.inOrderPrint = function () {
+        _Node.prototype.inOrderPrint = function () {
             if (this.left) {
                 this.left.inOrderPrint();
             }
@@ -20,13 +21,17 @@ var TreeNode = (function () {
                 this.right.inOrderPrint();
             }
         };
-        Node.prototype.insert = function (node) {
+        _Node.prototype.insert = function (node) {
+            if (!node) {
+                return null;
+            }
             if (node.data > this.data) {
                 if (this.right) {
                     this.right.insert(node);
                 }
                 else {
                     this.right = node;
+                    this.right.parent = this;
                 }
             }
             else if (node.data < this.data) {
@@ -35,11 +40,12 @@ var TreeNode = (function () {
                 }
                 else {
                     this.left = node;
+                    this.left.parent = this;
                 }
             }
             return this;
         };
-        Node.prototype.findMax = function () {
+        _Node.prototype.findMax = function () {
             if (this.right) {
                 return this.right.findMax();
             }
@@ -47,7 +53,7 @@ var TreeNode = (function () {
                 return this.data;
             }
         };
-        Node.prototype.findMin = function () {
+        _Node.prototype.findMin = function () {
             if (this.left) {
                 return this.left.findMin();
             }
@@ -55,9 +61,9 @@ var TreeNode = (function () {
                 return this.data;
             }
         };
-        Node.prototype.contains = function (number) {
+        _Node.prototype.contains = function (number) {
             if (this.data == number) {
-                return true;
+                return this;
             }
             else {
                 if (this.data < number) {
@@ -65,7 +71,7 @@ var TreeNode = (function () {
                         return this.right.contains(number);
                     }
                     else {
-                        return false;
+                        return null;
                     }
                 }
                 else {
@@ -73,21 +79,56 @@ var TreeNode = (function () {
                         return this.left.contains(number);
                     }
                     else {
-                        return false;
+                        return null;
                     }
                 }
             }
         };
-        return Node;
+        /**
+         *
+         * @param number
+         * @returns {_Node} return the root after removing the node
+         */
+        _Node.prototype.remove = function (number) {
+            var n = this.contains(number);
+            if (n) {
+                var np = n.parent;
+                if (np) {
+                    if (n === np.right) {
+                        np.right = n.right;
+                        np.right.parent = np;
+                        np.right.insert(n.left);
+                    }
+                    else {
+                        np.left = n.left;
+                        np.left.parent = np;
+                        np.left.insert(n.right);
+                    }
+                    return this;
+                }
+                else {
+                    //set n.right as new root
+                    n.right.insert(n.left);
+                    n.right.parent = null;
+                    return n.right;
+                }
+            }
+            else {
+                return this;
+            }
+        };
+        return _Node;
     }());
-    return Node;
+    return _Node;
 })();
-var root = new TreeNode();
-root.insert(new TreeNode(2)).insert(new TreeNode(4)).insert(new TreeNode(-2));
-root.insert(new TreeNode(-0.5)).insert(new TreeNode(-9));
+var root = new BiNode();
+root.insert(new BiNode(2)).insert(new BiNode(4)).insert(new BiNode(-2));
+root.insert(new BiNode(-0.5)).insert(new BiNode(-9));
 root.inOrderPrint();
 console.log(root.findMax());
 console.log(root.findMin());
 console.log(root.contains(2), root.contains(1));
+this["remove-2"] = root.remove(-2);
+var newRoot = root.remove(0);
 "";
 //# sourceMappingURL=binarySearchTree.js.map
