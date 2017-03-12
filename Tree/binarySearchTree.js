@@ -39,6 +39,45 @@ var TreeNode = (function () {
             }
             return this;
         };
+        Node.prototype.findMax = function () {
+            if (this.right) {
+                return this.right.findMax();
+            }
+            else {
+                return this.data;
+            }
+        };
+        Node.prototype.findMin = function () {
+            if (this.left) {
+                return this.left.findMin();
+            }
+            else {
+                return this.data;
+            }
+        };
+        Node.prototype.contains = function (number) {
+            if (this.data == number) {
+                return true;
+            }
+            else {
+                if (this.data < number) {
+                    if (this.right) {
+                        return this.right.contains(number);
+                    }
+                    else {
+                        return false;
+                    }
+                }
+                else {
+                    if (this.left) {
+                        return this.left.contains(number);
+                    }
+                    else {
+                        return false;
+                    }
+                }
+            }
+        };
         return Node;
     }());
     return Node;
@@ -47,5 +86,8 @@ var root = new TreeNode();
 root.insert(new TreeNode(2)).insert(new TreeNode(4)).insert(new TreeNode(-2));
 root.insert(new TreeNode(-0.5)).insert(new TreeNode(-9));
 root.inOrderPrint();
+console.log(root.findMax());
+console.log(root.findMin());
+console.log(root.contains(2), root.contains(1));
 "";
 //# sourceMappingURL=binarySearchTree.js.map
