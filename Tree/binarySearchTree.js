@@ -12,6 +12,9 @@ var BiNode = (function () {
             this.left = left;
             this.right = right;
         }
+        /**
+         * @description 中序遍历,显示的就是从小到大排列
+         */
         _Node.prototype.inOrderPrint = function () {
             if (this.left) {
                 this.left.inOrderPrint();
@@ -21,6 +24,11 @@ var BiNode = (function () {
                 this.right.inOrderPrint();
             }
         };
+        /**
+         *
+         * @param node
+         * @returns {_Node} the root node itself
+         */
         _Node.prototype.insert = function (node) {
             if (!node) {
                 return null;
@@ -45,22 +53,35 @@ var BiNode = (function () {
             }
             return this;
         };
+        /**
+         *
+         * @returns {_Node} the node containing the maximum value
+         */
         _Node.prototype.findMax = function () {
             if (this.right) {
                 return this.right.findMax();
             }
             else {
-                return this.data;
+                return this;
             }
         };
+        /**
+         *
+         * @returns {_Node} the node containing the minimum value
+         */
         _Node.prototype.findMin = function () {
             if (this.left) {
                 return this.left.findMin();
             }
             else {
-                return this.data;
+                return this;
             }
         };
+        /**
+         * @description if contains this number,return the node containing it;else return null
+         * @param number
+         * @returns {_Node}
+         */
         _Node.prototype.contains = function (number) {
             if (this.data == number) {
                 return this;
@@ -87,12 +108,15 @@ var BiNode = (function () {
         /**
          *
          * @param number
-         * @returns {_Node} return the root after removing the node
+         * @returns {_Node} return the tree root after removing the node
          */
         _Node.prototype.remove = function (number) {
             var n = this.contains(number);
             if (n) {
                 var np = n.parent;
+                /**
+                 * @description np exists,so n is not the tree root
+                 */
                 if (np) {
                     if (n === np.right) {
                         np.right = n.right;
