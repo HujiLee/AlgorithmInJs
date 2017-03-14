@@ -153,13 +153,17 @@ var BiNode = (function () {
 
     return _Node;
 })();
-var root = new BiNode();
-root.insert(new BiNode(2)).insert(new BiNode(4)).insert(new BiNode(-2));
-root.insert(new BiNode(-0.5)).insert(new BiNode(-9));
-root.inOrderPrint();
-console.log(root.findMax());
-console.log(root.findMin());
-console.log(root.contains(2), root.contains(1));
-this["remove-2"] = root.remove(-2);
-var newRoot = root.remove(0);
-"";
+{
+    let root = new BiNode();
+    root.insert(new BiNode(2)).insert(new BiNode(4)).insert(new BiNode(-2));
+    root.insert(new BiNode(-0.5)).insert(new BiNode(-9));
+    root.inOrderPrint();
+    console.log(root.findMax());
+    console.log(root.findMin());
+    console.log(root.contains(2), root.contains(1));
+    this["remove-2"] = root.remove(-2);
+    var newRoot = root.remove(0);
+    "";
+}
+
+
