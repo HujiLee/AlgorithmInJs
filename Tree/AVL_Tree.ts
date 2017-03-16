@@ -52,23 +52,25 @@ var AvlTree = (function () {
             }
         }
 
-        private static updateDepthAfterRotation(sourceNodeA:_AvlNode,sourceNodeB:_AvlNode=null){
-            sourceNodeA.setDep(Math.max(_AvlNode.getDepth(sourceNodeA.left),_AvlNode.getDepth(sourceNodeA.right))+1);
-            if(sourceNodeB) {
+        private static updateDepthAfterRotation(sourceNodeA: _AvlNode, sourceNodeB: _AvlNode = null) {
+            sourceNodeA.setDep(Math.max(_AvlNode.getDepth(sourceNodeA.left), _AvlNode.getDepth(sourceNodeA.right)) + 1);
+            if (sourceNodeB) {
                 //A,B平级,有着相同的父亲都需要重新设置深度
-                sourceNodeB.setDep(Math.max(_AvlNode.getDepth(sourceNodeB.left), _AvlNode.getDepth(sourceNodeB.right))+1);
+                sourceNodeB.setDep(Math.max(_AvlNode.getDepth(sourceNodeB.left), _AvlNode.getDepth(sourceNodeB.right)) + 1);
             }
-            if(sourceNodeA.parent){
+            if (sourceNodeA.parent) {
                 _AvlNode.updateDepthAfterRotation(sourceNodeA.parent);
             }
         }
-        private static getDepth(node:_AvlNode){
-            if(node){
+
+        private static getDepth(node: _AvlNode) {
+            if (node) {
                 return node.getDep();
-            }else{
+            } else {
                 return 0;
             }
         }
+
         private addDepthFromChild(child: _AvlNode) {
             if (!child) {
                 return;//do nothing
@@ -117,7 +119,7 @@ var AvlTree = (function () {
                     //从下到上,由于node的加入传导修改dep度
                     this.addDepthFromChild(node);
                     //旋转???
-                   return node.balance();
+                    return node.balance();
                 }
             }
             //新数据小于本节点数据
@@ -130,7 +132,7 @@ var AvlTree = (function () {
                     node.parent = this;
                     this.addDepthFromChild(node);
                     //??旋转??
-                  return  node.balance();
+                    return node.balance();
                 }
             }
         }
@@ -159,40 +161,73 @@ var AvlTree = (function () {
                             var Br = B.right;
                             var Ap = A.parent;
                             A.left = Br;
-                            if(Br){
+                            if (Br) {
                                 Br.parent = A;
                             }
                             B.right = A;
                             A.parent = B;
                             B.parent = Ap;
-                            if(Ap){
-                                Ap.data>B.data?Ap.left=B:Ap.right=B;
+                            if (Ap) {
+                                Ap.data > B.data ? Ap.left = B : Ap.right = B;
                             }
                             _AvlNode.updateDepthAfterRotation(A);
                             return B.getRoot();
 
                         })(A, B);
-                    case 1:return (function LR(A,B) {
-                        var C = B.right;
-                        var Cl = C.left;
-                        var Cr = C.right;
-                        var Ap = A.parent;
-                        C.left = B;
-                        B.parent = C;
-                        C.right = A;
-                        A.parent = C;
-                        C.parent = Ap;
-                        if(Ap){
-                            Ap.data>C.data?Ap.left=C:Ap.right = C;
-                        }
-                        B.right = Cl;
-                        if(Cl)Cl.parent = B;
-                        A.left = Cr;
-                        if(Cr) Cr.parent=A;
-                        return C.getRoot();
-                    })(A,B);
+                    case 1:
+                        return (function LR(A, B) {
+                            var C = B.right;
+                            var Cl = C.left;
+                            var Cr = C.right;
+                            var Ap = A.parent;
+                            C.left = B;
+                            B.parent = C;
+                            C.right = A;
+                            A.parent = C;
+                            C.parent = Ap;
+                            if (Ap) {
+                                Ap.data > C.data ? Ap.left = C : Ap.right = C;
+                            }
+                            B.right = Cl;
+                            if (Cl)Cl.parent = B;
+                            A.left = Cr;
+                            if (Cr) Cr.parent = A;
+                            return C.getRoot();
+                        })(A, B);
                     case -3:
+                        return (function (A, B) {
+                            var Bl = B.left;
+                            var Ap = A.parent;
+                            A.right = Bl;
+                            if (Bl)Bl.parent = A;
+                            B.left = A;
+                            A.parent = B;
+                            B.parent = Ap;
+                            if (Ap) {
+                                Ap.data > B.data ? Ap.left = B : Ap.right = B;
+                            }
+                            return B.getRoot();
+                        })(A, B);
                     case -1:
+                        return (function (A,B) {
+                            var C = B.left;
+                            var Cl = C.left;
+                            var Cr = C.right;
+                            var Ap = A.parent;
+                            C.left = A;
+                            A.parent = C;
+                            C.right = B;
+                            B.parent = C;
+                            A.right = Cl;
+                            if(Cl)Cl.parent = A;
+                            B.left = Cr;
+                            if(Cr)Cr.parent = B;
+                            C.parent = Ap;
+                            if(Ap){
+                                Ap.data > C.data ? Ap.left = C : Ap.right = C;
+                            }
+                            return C.getRoot();
+                        })(A,B);
                 }
 
             } else {
@@ -211,9 +246,12 @@ var AvlTree = (function () {
             this.root = node;
         }
 
-        static node = _AvlNode;
+        static get node() {
+            return _AvlNode;
+        }
 
     }
+
 
     return AVL_Tree;
 })();
@@ -230,5 +268,20 @@ var AvlTree = (function () {
     let root = new Node(1);
     root.insert(new Node(-9));
     let nRoot = root.insert(new Node(0));
+    ''
+}
+{
+    let Node = AvlTree.node;
+    let root = new Node(1);
+    root.insert(new Node(2));
+    let nRoot = root.insert(new Node(3));
+    ''
+
+}
+{
+    let Node = AvlTree.node;
+    let root = new Node(1);
+    root.insert(new Node(9));
+    let nRoot = root.insert(new Node(3));
     ''
 }

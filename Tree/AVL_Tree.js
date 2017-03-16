@@ -174,29 +174,65 @@ var AvlTree = (function () {
                             _AvlNode.updateDepthAfterRotation(A);
                             return B.getRoot();
                         })(A, B);
-                    case 1: return (function LR(A, B) {
-                        var C = B.right;
-                        var Cl = C.left;
-                        var Cr = C.right;
-                        var Ap = A.parent;
-                        C.left = B;
-                        B.parent = C;
-                        C.right = A;
-                        A.parent = C;
-                        C.parent = Ap;
-                        if (Ap) {
-                            Ap.data > C.data ? Ap.left = C : Ap.right = C;
-                        }
-                        B.right = Cl;
-                        if (Cl)
-                            Cl.parent = B;
-                        A.left = Cr;
-                        if (Cr)
-                            Cr.parent = A;
-                        return C.getRoot();
-                    })(A, B);
+                    case 1:
+                        return (function LR(A, B) {
+                            var C = B.right;
+                            var Cl = C.left;
+                            var Cr = C.right;
+                            var Ap = A.parent;
+                            C.left = B;
+                            B.parent = C;
+                            C.right = A;
+                            A.parent = C;
+                            C.parent = Ap;
+                            if (Ap) {
+                                Ap.data > C.data ? Ap.left = C : Ap.right = C;
+                            }
+                            B.right = Cl;
+                            if (Cl)
+                                Cl.parent = B;
+                            A.left = Cr;
+                            if (Cr)
+                                Cr.parent = A;
+                            return C.getRoot();
+                        })(A, B);
                     case -3:
+                        return (function (A, B) {
+                            var Bl = B.left;
+                            var Ap = A.parent;
+                            A.right = Bl;
+                            if (Bl)
+                                Bl.parent = A;
+                            B.left = A;
+                            A.parent = B;
+                            B.parent = Ap;
+                            if (Ap) {
+                                Ap.data > B.data ? Ap.left = B : Ap.right = B;
+                            }
+                            return B.getRoot();
+                        })(A, B);
                     case -1:
+                        return (function (A, B) {
+                            var C = B.left;
+                            var Cl = C.left;
+                            var Cr = C.right;
+                            var Ap = A.parent;
+                            C.left = A;
+                            A.parent = C;
+                            C.right = B;
+                            B.parent = C;
+                            A.right = Cl;
+                            if (Cl)
+                                Cl.parent = A;
+                            B.left = Cr;
+                            if (Cr)
+                                Cr.parent = B;
+                            C.parent = Ap;
+                            if (Ap) {
+                                Ap.data > C.data ? Ap.left = C : Ap.right = C;
+                            }
+                            return C.getRoot();
+                        })(A, B);
                 }
             }
             else {
@@ -209,9 +245,15 @@ var AvlTree = (function () {
         function AVL_Tree(node) {
             this.root = node;
         }
+        Object.defineProperty(AVL_Tree, "node", {
+            get: function () {
+                return _AvlNode;
+            },
+            enumerable: true,
+            configurable: true
+        });
         return AVL_Tree;
     }());
-    AVL_Tree.node = _AvlNode;
     return AVL_Tree;
 })();
 {
@@ -226,6 +268,20 @@ var AvlTree = (function () {
     var root = new Node_2(1);
     root.insert(new Node_2(-9));
     var nRoot = root.insert(new Node_2(0));
+    '';
+}
+{
+    var Node_3 = AvlTree.node;
+    var root = new Node_3(1);
+    root.insert(new Node_3(2));
+    var nRoot = root.insert(new Node_3(3));
+    '';
+}
+{
+    var Node_4 = AvlTree.node;
+    var root = new Node_4(1);
+    root.insert(new Node_4(9));
+    var nRoot = root.insert(new Node_4(3));
     '';
 }
 //# sourceMappingURL=AVL_Tree.js.map
