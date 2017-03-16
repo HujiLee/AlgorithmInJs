@@ -117,7 +117,7 @@ var AvlTree = (function () {
                     //从下到上,由于node的加入传导修改dep度
                     this.addDepthFromChild(node);
                     //旋转???
-                    node.balance();
+                   return node.balance();
                 }
             }
             //新数据小于本节点数据
@@ -130,7 +130,7 @@ var AvlTree = (function () {
                     node.parent = this;
                     this.addDepthFromChild(node);
                     //??旋转??
-                    node.balance();
+                  return  node.balance();
                 }
             }
         }
@@ -172,7 +172,25 @@ var AvlTree = (function () {
                             return B.getRoot();
 
                         })(A, B);
-                    case 1:
+                    case 1:return (function LR(A,B) {
+                        var C = B.right;
+                        var Cl = C.left;
+                        var Cr = C.right;
+                        var Ap = A.parent;
+                        C.left = B;
+                        B.parent = C;
+                        C.right = A;
+                        A.parent = C;
+                        C.parent = Ap;
+                        if(Ap){
+                            Ap.data>C.data?Ap.left=C:Ap.right = C;
+                        }
+                        B.right = Cl;
+                        if(Cl)Cl.parent = B;
+                        A.left = Cr;
+                        if(Cr) Cr.parent=A;
+                        return C.getRoot();
+                    })(A,B);
                     case -3:
                     case -1:
                 }
@@ -205,5 +223,12 @@ var AvlTree = (function () {
     let root = new Node(3);
     root.insert(new Node(1));
     root.insert(new Node(0));
+    ''
+}
+{
+    let Node = AvlTree.node;
+    let root = new Node(1);
+    root.insert(new Node(-9));
+    let nRoot = root.insert(new Node(0));
     ''
 }

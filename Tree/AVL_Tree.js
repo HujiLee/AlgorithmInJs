@@ -122,7 +122,7 @@ var AvlTree = (function () {
                     //从下到上,由于node的加入传导修改dep度
                     this.addDepthFromChild(node);
                     //旋转???
-                    node.balance();
+                    return node.balance();
                 }
             }
             else {
@@ -134,7 +134,7 @@ var AvlTree = (function () {
                     node.parent = this;
                     this.addDepthFromChild(node);
                     //??旋转??
-                    node.balance();
+                    return node.balance();
                 }
             }
         };
@@ -174,7 +174,27 @@ var AvlTree = (function () {
                             _AvlNode.updateDepthAfterRotation(A);
                             return B.getRoot();
                         })(A, B);
-                    case 1:
+                    case 1: return (function LR(A, B) {
+                        var C = B.right;
+                        var Cl = C.left;
+                        var Cr = C.right;
+                        var Ap = A.parent;
+                        C.left = B;
+                        B.parent = C;
+                        C.right = A;
+                        A.parent = C;
+                        C.parent = Ap;
+                        if (Ap) {
+                            Ap.data > C.data ? Ap.left = C : Ap.right = C;
+                        }
+                        B.right = Cl;
+                        if (Cl)
+                            Cl.parent = B;
+                        A.left = Cr;
+                        if (Cr)
+                            Cr.parent = A;
+                        return C.getRoot();
+                    })(A, B);
                     case -3:
                     case -1:
                 }
@@ -199,6 +219,13 @@ var AvlTree = (function () {
     var root = new Node_1(3);
     root.insert(new Node_1(1));
     root.insert(new Node_1(0));
+    '';
+}
+{
+    var Node_2 = AvlTree.node;
+    var root = new Node_2(1);
+    root.insert(new Node_2(-9));
+    var nRoot = root.insert(new Node_2(0));
     '';
 }
 //# sourceMappingURL=AVL_Tree.js.map
