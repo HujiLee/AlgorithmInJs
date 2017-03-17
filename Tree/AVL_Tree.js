@@ -78,7 +78,6 @@ var AvlTree = (function () {
             }
             if (this.right == child) {
                 if (this.left && this.left.getDep() > child.getDep()) {
-                    //do nothing
                 }
                 else {
                     this.setDep(child.getDep() + 1);
@@ -89,7 +88,6 @@ var AvlTree = (function () {
             }
             else {
                 if (this.right && this.right.getDep() > child.getDep()) {
-                    //do nothing
                 }
                 else {
                     this.setDep(child.getDep() + 1);
@@ -150,6 +148,7 @@ var AvlTree = (function () {
                     if (Math.abs(p.parent.BalanceFactor) == 2) {
                         return [p.parent, p]; //[A,B]
                     }
+                    p = p.parent;
                 }
                 return null;
             })(this);
@@ -242,9 +241,23 @@ var AvlTree = (function () {
         return _AvlNode;
     }());
     var AVL_Tree = (function () {
-        function AVL_Tree(node) {
-            this.root = node;
+        function AVL_Tree(x) {
+            if (x instanceof _AvlNode) {
+                this.root = x;
+            }
+            else if (typeof x === "number") {
+                this.root = new _AvlNode(x);
+            }
         }
+        AVL_Tree.prototype.insert = function (nodeOrValue) {
+            if (nodeOrValue instanceof _AvlNode) {
+                this.root = this.root.insert(nodeOrValue);
+            }
+            else if (typeof nodeOrValue === "number") {
+                this.root = this.root.insert(new _AvlNode(nodeOrValue));
+            }
+            return this;
+        };
         Object.defineProperty(AVL_Tree, "node", {
             get: function () {
                 return _AvlNode;
@@ -282,6 +295,13 @@ var AvlTree = (function () {
     var root = new Node_4(1);
     root.insert(new Node_4(9));
     var nRoot = root.insert(new Node_4(3));
+    '';
+}
+{
+    var tree = new AvlTree(5);
+    tree.insert(6).insert(1);
+    tree.insert(-8).insert(2);
+    tree.insert(3);
     '';
 }
 //# sourceMappingURL=AVL_Tree.js.map

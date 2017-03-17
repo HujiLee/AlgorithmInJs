@@ -143,12 +143,13 @@ var AvlTree = (function () {
          */
         private balance(): _AvlNode {
             //find the A,whose Factor = -2or2
-            let AB = (function (self): Array<_AvlNode> {
+            let AB = (function (self:_AvlNode): Array<_AvlNode> {
                 var p = self.parent;
                 while (p.parent) {
                     if (Math.abs(p.parent.BalanceFactor) == 2) {
                         return [p.parent, p];//[A,B]
                     }
+                    p = p.parent;
                 }
                 return null;
             })(this);
@@ -242,8 +243,25 @@ var AvlTree = (function () {
     class AVL_Tree {
         root: _AvlNode;
 
-        constructor(node: _AvlNode) {
-            this.root = node;
+        constructor(value:Number);
+        constructor(node:_AvlNode);
+        constructor(x) {
+            if(x instanceof _AvlNode){
+                this.root = x;
+            }else if(typeof x ==="number"){
+                this.root = new _AvlNode(x);
+            }
+        }
+
+        insert(value:Number);
+        insert(node:_AvlNode);
+        insert(nodeOrValue):AVL_Tree{
+            if(nodeOrValue instanceof _AvlNode){
+                this.root = this.root.insert(nodeOrValue);
+            } else if(typeof nodeOrValue ==="number"){
+                this.root = this.root.insert(new _AvlNode(nodeOrValue))
+            }
+            return this;
         }
 
         static get node() {
@@ -283,5 +301,14 @@ var AvlTree = (function () {
     let root = new Node(1);
     root.insert(new Node(9));
     let nRoot = root.insert(new Node(3));
+    ''
+}
+{
+    let tree = new AvlTree(5);
+    tree.insert(6).insert(1);
+    tree.insert(-8).insert(2);
+
+
+    tree.insert(3);
     ''
 }
