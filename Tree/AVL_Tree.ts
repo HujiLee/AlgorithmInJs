@@ -55,7 +55,7 @@ var AvlTree = (function () {
         private static updateDepthAfterRotation(sourceNodeA: _AvlNode, sourceNodeB: _AvlNode = null) {
             sourceNodeA.setDep(Math.max(_AvlNode.getDepth(sourceNodeA.left), _AvlNode.getDepth(sourceNodeA.right)) + 1);
             if (sourceNodeB) {
-                //A,B平级,有着相同的父亲都需要重新设置深度
+                //Type,B平级,有着相同的父亲都需要重新设置深度
                 sourceNodeB.setDep(Math.max(_AvlNode.getDepth(sourceNodeB.left), _AvlNode.getDepth(sourceNodeB.right)) + 1);
             }
             if (sourceNodeA.parent) {
@@ -142,12 +142,12 @@ var AvlTree = (function () {
          * @returns {_AvlNode}  the tree's root after balancing
          */
         private balance(): _AvlNode {
-            //find the A,whose Factor = -2or2
+            //find the Type,whose Factor = -2or2
             let AB = (function (self:_AvlNode): Array<_AvlNode> {
                 var p = self.parent;
                 while (p.parent) {
                     if (Math.abs(p.parent.BalanceFactor) == 2) {
-                        return [p.parent, p];//[A,B]
+                        return [p.parent, p];//[Type,B]
                     }
                     p = p.parent;
                 }
